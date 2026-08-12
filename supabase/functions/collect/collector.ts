@@ -25,11 +25,11 @@ export async function runCollector(
       if (!adapter) throw new Error(`no adapter for type ${source.type}`);
       const raw = await adapter.fetch(source, httpGet);
       const items = raw.map((r) => adapter.normalize(r, source));
-      const inserted = await insertFeedItems(supabase, items);
+      const insertedItems = await insertFeedItems(supabase, items);
       await applyHealth(supabase, source.id, nextHealth(source, "success", now));
-      if (inserted > 0) result.newItems.push(...items);
-      result.perSource.push({ sourceId: source.id, inserted, ok: true });
-      console.log(`[${source.id}/${source.type}] inserted ${inserted}`);
+      result.newItems.push(...insertedItems);
+      result.perSource.push({ sourceId: source.id, inserted: insertedItems.length, ok: true });
+      console.log(`[${source.id}/${source.type}] inserted ${insertedItems.length}`);
     } catch (e) {
       const msg = e instanceof Error ? e.message : String(e);
       await applyHealth(supabase, source.id, nextHealth(source, "failure", now));

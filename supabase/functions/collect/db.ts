@@ -10,15 +10,18 @@ export async function getActiveSources(supabase: SupabaseClient): Promise<Source
   return (data ?? []) as Source[];
 }
 
-/** 새로 삽입된 행 수 반환. 중복(UNIQUE 충돌)은 무시. */
-export async function insertFeedItems(supabase: SupabaseClient, items: FeedItem[]): Promise<number> {
-  if (items.length === 0) return 0;
+/** 새로 삽입된 행만 반환. 중복(UNIQUE 충돌)은 무시. */
+export async function insertFeedItems(
+  supabase: SupabaseClient,
+  items: FeedItem[],
+): Promise<FeedItem[]> {
+  if (items.length === 0) return [];
   const { data, error } = await supabase
     .from("feed_items")
     .upsert(items, { onConflict: "source_id,external_id", ignoreDuplicates: true })
-    .select("id");
+    .select("ip_id, source_id, external_id, title, summary, url, image_url, published_at");
   if (error) throw new Error(`insertFeedItems: ${error.message}`);
-  return data?.length ?? 0;
+  return (data ?? []) as FeedItem[];
 }
 
 export async function applyHealth(supabase: SupabaseClient, sourceId: string, h: HealthUpdate): Promise<void> {

@@ -19,9 +19,9 @@ Deno.test("getActiveSources는 시드된 활성 RSS 소스를 포함한다", asy
   assertEquals(seed?.is_active, true);
 });
 
-Deno.test("insertFeedItems는 새 항목만 세고, 재삽입은 0", async () => {
-  assertEquals(await insertFeedItems(supabase, [item("dup-1"), item("dup-2")]), 2);
-  assertEquals(await insertFeedItems(supabase, [item("dup-1"), item("dup-2")]), 0);
+Deno.test("insertFeedItems는 새 항목만 반환하고, 재삽입은 빈 배열", async () => {
+  assertEquals((await insertFeedItems(supabase, [item("dup-1"), item("dup-2")])).length, 2);
+  assertEquals((await insertFeedItems(supabase, [item("dup-1"), item("dup-2")])).length, 0);
 });
 
 Deno.test("applyHealth는 소스 헬스를 갱신한다", async () => {
