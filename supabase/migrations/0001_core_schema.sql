@@ -65,3 +65,9 @@ create policy "categories readable" on categories for select using (true);
 create policy "ips readable" on ips for select using (true);
 create policy "feed_items readable" on feed_items for select using (true);
 -- sources: 정책 없음 → 익명 접근 거부. 서비스롤만 접근.
+
+-- 권한: Supabase CLI는 db reset 시 public 스키마 테이블의 기본 권한(select/insert/update/delete)을
+-- anon/authenticated/service_role에서 회수한다. RLS 우회 여부와 무관하게 테이블 권한(GRANT)이
+-- 별도로 필요하므로 명시적으로 부여한다.
+grant select, insert, update, delete on categories, ips, sources, feed_items to service_role;
+grant select on categories, ips, feed_items to anon, authenticated;
