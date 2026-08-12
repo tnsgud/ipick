@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>Test Feed</title>
+    <link>https://example.com</link>
+    <item>
+      <title>신제품 아크릴 스탠드 발매</title>
+      <link>https://example.com/goods/1</link>
+      <guid>goods-1</guid>
+      <description>한정 아크릴 스탠드 6종</description>
+      <pubDate>Mon, 11 Aug 2026 09:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>예약 안내</title>
+      <link>https://example.com/goods/2</link>
+      <description>예약 시작</description>
+      <pubDate>Mon, 11 Aug 2026 10:00:00 GMT</pubDate>
+    </item>
+  </channel>
+</rss>
