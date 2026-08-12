@@ -1,0 +1,212 @@
+<title>iPick · 틸 톤 비교 목업</title>
+<style>
+  :root {
+    --page-bg: #eef4f3;
+    --page-panel: #ffffff;
+    --ink: #14201e;
+    --ink-body: #465350;
+    --ink-muted: #869390;
+    --hair: #e0eae8;
+    --radius-card: 16px;
+    --font: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Malgun Gothic", "Segoe UI", Roboto, sans-serif;
+    /* semantic (brand-independent) — shared across all three tones */
+    --info-bg: #e8f1ff;   --info-fg: #1d5fd8;
+    --limit-bg: #f1eafe;  --limit-fg: #6d3be0;
+    --warn-bg: #fff3e0;   --warn-fg: #c77a00;
+    --news-bg: #eef0f0;   --news-fg: #64706d;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --page-bg: #101917; --page-panel: #18211f; --ink: #eef6f4; --ink-body: #bcc9c6; --ink-muted: #869390; --hair: #263230; }
+  }
+  :root[data-theme="light"] { --page-bg: #eef4f3; --page-panel: #ffffff; --ink: #14201e; --ink-body: #465350; --ink-muted: #869390; --hair: #e0eae8; }
+  :root[data-theme="dark"]  { --page-bg: #101917; --page-panel: #18211f; --ink: #eef6f4; --ink-body: #bcc9c6; --ink-muted: #869390; --hair: #263230; }
+
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: var(--font); background: var(--page-bg); color: var(--ink); -webkit-font-smoothing: antialiased; padding: 40px 20px 64px; }
+  .wrap { max-width: 1120px; margin: 0 auto; }
+
+  header.page { text-align: center; margin-bottom: 8px; }
+  header.page h1 { font-size: 26px; font-weight: 800; letter-spacing: -0.02em; margin: 0 0 8px; text-wrap: balance; }
+  header.page p { color: var(--ink-muted); margin: 0 auto; max-width: 54ch; font-size: 15px; line-height: 1.5; }
+
+  .compare-grid { display: flex; flex-wrap: wrap; gap: 28px 24px; justify-content: center; align-items: flex-start; margin-top: 40px; }
+  .col { width: 300px; display: flex; flex-direction: column; gap: 14px; }
+
+  .col-head { display: flex; flex-direction: column; gap: 8px; align-items: center; text-align: center; }
+  .tone-name { font-size: 15px; font-weight: 700; }
+  .tone-sub { font-size: 12.5px; color: var(--ink-muted); line-height: 1.45; min-height: 34px; }
+  .swatches { display: flex; gap: 6px; }
+  .swatch { width: 26px; height: 26px; border-radius: 7px; border: 1px solid rgba(0,0,0,0.10); }
+
+  /* ---------- Phone ---------- */
+  .phone { background: #ffffff; border-radius: 30px; padding: 10px; border: 1px solid var(--hair); box-shadow: 0 12px 34px rgba(20,32,30,0.14); }
+  .screen { background: #ffffff; border-radius: 22px; overflow: hidden; color: #14201e; font-size: 14px; }
+
+  .statusbar { display: flex; justify-content: space-between; align-items: center; padding: 9px 16px 3px; font-size: 11px; font-weight: 600; color: #14201e; }
+  .statusbar .dots { display: flex; gap: 3px; }
+  .statusbar .dots i { width: 4px; height: 4px; border-radius: 50%; background: #b6c2bf; display: block; }
+
+  .appbar { display: flex; align-items: center; justify-content: space-between; padding: 6px 16px 10px; }
+  .wordmark { font-size: 20px; font-weight: 800; letter-spacing: -0.03em; color: var(--primary-ink); }
+  .wordmark span { color: #14201e; }
+  .bell { width: 34px; height: 34px; border-radius: 50%; background: var(--weak-bg); position: relative; }
+  .bell::before { content:""; position:absolute; left:0; right:0; margin:auto; width:13px; height:13px; border:2px solid var(--primary-ink); border-bottom:none; border-radius:7px 7px 0 0; top:9px; }
+  .bell::after { content:""; position:absolute; left:0; right:0; margin:auto; bottom:9px; width:16px; height:2px; background:var(--primary-ink); border-radius:2px; }
+  .bell b { position:absolute; top:8px; right:8px; width:7px; height:7px; border-radius:50%; background:var(--primary-ink); border:1.5px solid #fff; }
+
+  .search { margin: 0 16px 12px; height: 40px; border-radius: 11px; background: #f2f5f4; display: flex; align-items: center; gap: 8px; padding: 0 12px; color: #909996; font-size: 13.5px; }
+  .search .mag { width: 14px; height: 14px; border: 2px solid #aeb8b5; border-radius: 50%; position: relative; flex: none; }
+  .search .mag::after { content:""; position:absolute; right:-4px; bottom:-3px; width:6px; height:2px; background:#aeb8b5; transform: rotate(45deg); border-radius:2px; }
+
+  .chips { display: flex; gap: 7px; padding: 0 16px 14px; }
+  .chip { height: 32px; padding: 0 13px; border-radius: 999px; font-size: 12.5px; font-weight: 600; display: flex; align-items: center; border: 1px solid #e4edeb; color: #566361; background: #fff; }
+  .chip.sel { background: var(--weak-bg); color: var(--primary-ink); border-color: transparent; }
+
+  .feed { display: flex; flex-direction: column; gap: 10px; padding: 0 16px 18px; }
+  .card { display: flex; gap: 11px; padding: 11px; border: 1px solid #e6efed; border-radius: var(--radius-card); }
+  .thumb { width: 66px; height: 66px; border-radius: 12px; flex: none; position: relative; overflow: hidden; }
+  .thumb.a { background: linear-gradient(135deg,#2c2735,#4b3752); }
+  .thumb.b { background: linear-gradient(135deg,#ecdcc2,#cba871); }
+  .thumb.c { background: linear-gradient(135deg,#3d5b79,#83accb); }
+  .thumb.d { background: linear-gradient(135deg,#241f2e,#3b2f4b); }
+  .thumb.d .play { position:absolute; inset:0; margin:auto; width:0; height:0; border-left:14px solid rgba(255,255,255,.92); border-top:9px solid transparent; border-bottom:9px solid transparent; }
+  .thumb .mono { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:13px; color:rgba(255,255,255,.85); }
+
+  .cbody { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 3px; }
+  .meta { font-size: 11px; color: #869390; display: flex; gap: 5px; align-items: center; }
+  .meta .dot { width: 2.5px; height: 2.5px; border-radius: 50%; background: #c3cecb; }
+  .title { font-size: 13.5px; font-weight: 600; line-height: 1.35; color: #14201e; letter-spacing: -0.01em; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+  .badges { display: flex; gap: 5px; margin-top: 2px; flex-wrap: wrap; }
+  .badge { font-size: 10.5px; font-weight: 700; padding: 2.5px 7px; border-radius: 999px; }
+  .b-new { background: var(--weak-bg); color: var(--primary-ink); }
+  .b-info { background: var(--info-bg); color: var(--info-fg); }
+  .b-limit { background: var(--limit-bg); color: var(--limit-fg); }
+  .b-warn { background: var(--warn-bg); color: var(--warn-fg); }
+  .b-news { background: var(--news-bg); color: var(--news-fg); }
+
+  .crow { display: flex; align-items: center; justify-content: space-between; margin-top: 7px; }
+  .price { font-size: 13px; font-weight: 700; color: #14201e; font-variant-numeric: tabular-nums; }
+  .btn { height: 30px; padding: 0 13px; border-radius: 9px; font-size: 12px; font-weight: 700; border: none; background: var(--primary); color: var(--on-primary); display: flex; align-items: center; }
+  .btn.ghost { background: var(--weak-bg); color: var(--primary-ink); }
+
+  .tabbar { display: flex; justify-content: space-around; padding: 9px 0 12px; border-top: 1px solid #ecf1f0; }
+  .tabbar .tab { display: flex; flex-direction: column; align-items: center; gap: 4px; font-size: 10px; font-weight: 600; color: #adb8b5; }
+  .tabbar .tab.on { color: var(--primary-ink); }
+  .tabbar .tab i { width: 20px; height: 20px; border-radius: 6px; background: currentColor; opacity: .85; display: block; }
+
+  .cap { font-size: 12px; color: var(--ink-muted); text-align: center; line-height: 1.5; padding: 0 6px; }
+  .cap b { color: var(--ink-body); font-weight: 600; }
+
+  /* ---------- Tone palettes ---------- */
+  /* --primary: 채움(버튼·인디케이터) / --on-primary: 채움 위 텍스트 / --primary-ink: 흰 배경 위 텍스트·아이콘 / --weak-bg: 틴트 배경 */
+  .tone-base   { --primary:#39C5BB; --on-primary:#063D38; --primary-ink:#12897E; --weak-bg:#E2F6F3; }
+  .tone-pastel { --primary:#7FD8D0; --on-primary:#0E4A45; --primary-ink:#178C82; --weak-bg:#EAF8F6; }
+  .tone-deep   { --primary:#0B857B; --on-primary:#FFFFFF; --primary-ink:#0B6E65; --weak-bg:#D9F0ED; }
+
+  .footnote { margin-top: 44px; text-align: center; font-size: 12.5px; color: var(--ink-muted); line-height: 1.6; max-width: 62ch; margin-inline: auto; }
+
+  @media (max-width: 680px) { body { padding: 28px 14px 48px; } .compare-grid { gap: 34px; } }
+</style>
+
+<div class="wrap">
+  <header class="page">
+    <h1>iPick · 틸(#39c5bb) 톤 3종 비교</h1>
+    <p>지정하신 <b>#39c5bb</b>를 베이스로, 파스텔(더 밝게)과 강조(더 깊게) 변형을 나란히 놓았습니다. 틸은 밝은 색이라 흰 텍스트 대비가 낮아, 베이스·파스텔 버튼은 <b>진한 틸 텍스트</b>, 강조는 색을 내려 <b>흰 텍스트</b>로 처리했습니다. 예약중·한정·임박 상태 색은 공통 유지됩니다.</p>
+  </header>
+
+  <div class="compare-grid">
+
+    <!-- ============ BASE #39c5bb ============ -->
+    <div class="col">
+      <div class="col-head">
+        <div class="tone-name">베이스 · #39C5BB</div>
+        <div class="tone-sub">지정하신 값 그대로. 상쾌하고 산뜻한 민트틸. 밝아서 흰 텍스트는 대비 부족.</div>
+        <div class="swatches">
+          <div class="swatch" style="background:#39C5BB"></div>
+          <div class="swatch" style="background:#12897E"></div>
+          <div class="swatch" style="background:#E2F6F3"></div>
+          <div class="swatch" style="background:#063D38"></div>
+        </div>
+      </div>
+      <div class="phone tone-base">
+        <div class="screen">
+          <div class="statusbar"><span>9:41</span><span class="dots"><i></i><i></i><i></i></span></div>
+          <div class="appbar"><div class="wordmark">i<span>Pick</span></div><div class="bell"><b></b></div></div>
+          <div class="search"><span class="mag"></span>굿즈 · IP 검색</div>
+          <div class="chips"><div class="chip sel">전체</div><div class="chip">발매·굿즈</div><div class="chip">소식</div></div>
+          <div class="feed">
+            <div class="card"><div class="thumb a"><span class="mono">鬼</span></div><div class="cbody"><div class="meta">공식 스토어<span class="dot"></span>방금</div><div class="title">「무한성편」 극장판 아크릴 스탠드 6종</div><div class="badges"><span class="badge b-new">발매</span></div><div class="crow"><span class="price">₩18,000</span><button class="btn">예약하기</button></div></div></div>
+            <div class="card"><div class="thumb b"><span class="mono">炭</span></div><div class="cbody"><div class="meta">굿스마일<span class="dot"></span>12분 전</div><div class="title">탄지로 넨도로이드 재판</div><div class="badges"><span class="badge b-info">예약중</span><span class="badge b-warn">마감임박</span></div><div class="crow"><span class="price">₩68,000</span><button class="btn">예약하기</button></div></div></div>
+            <div class="card"><div class="thumb c"><span class="mono">禰</span></div><div class="cbody"><div class="meta">aniplex+<span class="dot"></span>1시간 전</div><div class="title">네즈코 1/7 스케일 피규어</div><div class="badges"><span class="badge b-limit">한정</span></div><div class="crow"><span class="price">₩250,000</span><button class="btn">구매하기</button></div></div></div>
+            <div class="card"><div class="thumb d"><span class="play"></span></div><div class="cbody"><div class="meta">공식 유튜브<span class="dot"></span>2시간 전</div><div class="title">「무한성편」 본예고 PV 공개</div><div class="badges"><span class="badge b-news">소식</span></div><div class="crow"><span class="price" style="color:#869390;font-weight:600">영상</span><button class="btn ghost">보기</button></div></div></div>
+          </div>
+          <div class="tabbar"><div class="tab on"><i></i>피드</div><div class="tab"><i></i>구독</div><div class="tab"><i></i>알림</div><div class="tab"><i></i>MY</div></div>
+        </div>
+      </div>
+      <div class="cap"><b>#39C5BB</b> · 상큼·청량. 버튼 텍스트는 진한 틸로 두어 가독성 확보. 밝은 브랜드라 젊고 가벼운 인상.</div>
+    </div>
+
+    <!-- ============ PASTEL ============ -->
+    <div class="col">
+      <div class="col-head">
+        <div class="tone-name">파스텔</div>
+        <div class="tone-sub">더 밝고 여린 민트. 부드럽고 편안하지만 주목도·대비는 가장 낮음.</div>
+        <div class="swatches">
+          <div class="swatch" style="background:#7FD8D0"></div>
+          <div class="swatch" style="background:#178C82"></div>
+          <div class="swatch" style="background:#EAF8F6"></div>
+          <div class="swatch" style="background:#0E4A45"></div>
+        </div>
+      </div>
+      <div class="phone tone-pastel">
+        <div class="screen">
+          <div class="statusbar"><span>9:41</span><span class="dots"><i></i><i></i><i></i></span></div>
+          <div class="appbar"><div class="wordmark">i<span>Pick</span></div><div class="bell"><b></b></div></div>
+          <div class="search"><span class="mag"></span>굿즈 · IP 검색</div>
+          <div class="chips"><div class="chip sel">전체</div><div class="chip">발매·굿즈</div><div class="chip">소식</div></div>
+          <div class="feed">
+            <div class="card"><div class="thumb a"><span class="mono">鬼</span></div><div class="cbody"><div class="meta">공식 스토어<span class="dot"></span>방금</div><div class="title">「무한성편」 극장판 아크릴 스탠드 6종</div><div class="badges"><span class="badge b-new">발매</span></div><div class="crow"><span class="price">₩18,000</span><button class="btn">예약하기</button></div></div></div>
+            <div class="card"><div class="thumb b"><span class="mono">炭</span></div><div class="cbody"><div class="meta">굿스마일<span class="dot"></span>12분 전</div><div class="title">탄지로 넨도로이드 재판</div><div class="badges"><span class="badge b-info">예약중</span><span class="badge b-warn">마감임박</span></div><div class="crow"><span class="price">₩68,000</span><button class="btn">예약하기</button></div></div></div>
+            <div class="card"><div class="thumb c"><span class="mono">禰</span></div><div class="cbody"><div class="meta">aniplex+<span class="dot"></span>1시간 전</div><div class="title">네즈코 1/7 스케일 피규어</div><div class="badges"><span class="badge b-limit">한정</span></div><div class="crow"><span class="price">₩250,000</span><button class="btn">구매하기</button></div></div></div>
+            <div class="card"><div class="thumb d"><span class="play"></span></div><div class="cbody"><div class="meta">공식 유튜브<span class="dot"></span>2시간 전</div><div class="title">「무한성편」 본예고 PV 공개</div><div class="badges"><span class="badge b-news">소식</span></div><div class="crow"><span class="price" style="color:#869390;font-weight:600">영상</span><button class="btn ghost">보기</button></div></div></div>
+          </div>
+          <div class="tabbar"><div class="tab on"><i></i>피드</div><div class="tab"><i></i>구독</div><div class="tab"><i></i>알림</div><div class="tab"><i></i>MY</div></div>
+        </div>
+      </div>
+      <div class="cap"><b>#7FD8D0</b> · 여리고 다정한 무드. 버튼도 진한 틸 텍스트. 감성적이지만 액션 존재감은 약함.</div>
+    </div>
+
+    <!-- ============ DEEP / EMPHASIZED ============ -->
+    <div class="col">
+      <div class="col-head">
+        <div class="tone-name">강조 (딥)</div>
+        <div class="tone-sub">더 깊은 틸. 흰 텍스트가 얹혀 대비·주목도 최상. 차분하고 신뢰감 있는 인상.</div>
+        <div class="swatches">
+          <div class="swatch" style="background:#0B857B"></div>
+          <div class="swatch" style="background:#0B6E65"></div>
+          <div class="swatch" style="background:#D9F0ED"></div>
+          <div class="swatch" style="background:#FFFFFF"></div>
+        </div>
+      </div>
+      <div class="phone tone-deep">
+        <div class="screen">
+          <div class="statusbar"><span>9:41</span><span class="dots"><i></i><i></i><i></i></span></div>
+          <div class="appbar"><div class="wordmark">i<span>Pick</span></div><div class="bell"><b></b></div></div>
+          <div class="search"><span class="mag"></span>굿즈 · IP 검색</div>
+          <div class="chips"><div class="chip sel">전체</div><div class="chip">발매·굿즈</div><div class="chip">소식</div></div>
+          <div class="feed">
+            <div class="card"><div class="thumb a"><span class="mono">鬼</span></div><div class="cbody"><div class="meta">공식 스토어<span class="dot"></span>방금</div><div class="title">「무한성편」 극장판 아크릴 스탠드 6종</div><div class="badges"><span class="badge b-new">발매</span></div><div class="crow"><span class="price">₩18,000</span><button class="btn">예약하기</button></div></div></div>
+            <div class="card"><div class="thumb b"><span class="mono">炭</span></div><div class="cbody"><div class="meta">굿스마일<span class="dot"></span>12분 전</div><div class="title">탄지로 넨도로이드 재판</div><div class="badges"><span class="badge b-info">예약중</span><span class="badge b-warn">마감임박</span></div><div class="crow"><span class="price">₩68,000</span><button class="btn">예약하기</button></div></div></div>
+            <div class="card"><div class="thumb c"><span class="mono">禰</span></div><div class="cbody"><div class="meta">aniplex+<span class="dot"></span>1시간 전</div><div class="title">네즈코 1/7 스케일 피규어</div><div class="badges"><span class="badge b-limit">한정</span></div><div class="crow"><span class="price">₩250,000</span><button class="btn">구매하기</button></div></div></div>
+            <div class="card"><div class="thumb d"><span class="play"></span></div><div class="cbody"><div class="meta">공식 유튜브<span class="dot"></span>2시간 전</div><div class="title">「무한성편」 본예고 PV 공개</div><div class="badges"><span class="badge b-news">소식</span></div><div class="crow"><span class="price" style="color:#869390;font-weight:600">영상</span><button class="btn ghost">보기</button></div></div></div>
+          </div>
+          <div class="tabbar"><div class="tab on"><i></i>피드</div><div class="tab"><i></i>구독</div><div class="tab"><i></i>알림</div><div class="tab"><i></i>MY</div></div>
+        </div>
+      </div>
+      <div class="cap"><b>#0B857B</b> · 대비 최상, 흰 텍스트로 액션이 또렷. 성숙·프리미엄한 인상으로 신뢰감이 필요한 커머스에 유리.</div>
+    </div>
+
+  </div>
+
+  <p class="footnote">세 화면 모두 동일한 레이아웃·타이포·상태 색을 쓰고 <b>브랜드 틸만</b> 교체했습니다. 밝은 틸 특성상 흰 배경 위 텍스트(워드마크·탭)와 버튼 텍스트는 가독성을 위해 진한 틸 버전을 씁니다. 폰트는 아티팩트 제약으로 시스템 한글 서체로 렌더링됩니다(실제 앱은 Pretendard). 고르시면 DESIGN.md 토큰에 확정 반영합니다.</p>
+</div>
