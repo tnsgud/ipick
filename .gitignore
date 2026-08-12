@@ -46,3 +46,12 @@ app.*.map.json
 
 # Widget Preview related
 .widget_preview/
+
+# Supabase
+supabase/.branches
+supabase/.temp
+.env
+.env.local
+
+# Deno
+.deno/
