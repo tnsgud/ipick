@@ -45,8 +45,6 @@ export interface HealthUpdate {
 
 /** 소스 종류별 어댑터. 새 타입 추가 = 이 인터페이스 구현 하나 추가. */
 export interface SourceAdapter {
-  /** 네트워크 접속 + 파싱 → 원본 항목들. httpGet 주입으로 테스트 가능. */
   fetch(source: Source, httpGet?: typeof globalThis.fetch): Promise<RawItem[]>;
-  /** 순수 변환: 원본 → FeedItem (external_id 생성 포함) */
   normalize(raw: RawItem, source: Source): FeedItem;
 }

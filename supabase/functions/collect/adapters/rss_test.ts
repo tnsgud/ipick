@@ -1,16 +1,11 @@
-import { assertEquals } from "jsr:@std/assert@1";
+import { assertEquals } from "std/assert";
 import { parseRss, RssAdapter } from "./rss.ts";
 import type { Source } from "../types.ts";
 
-const source: Source = {
-  id: "src-1", ip_id: "ip-1", type: "rss", url: "https://feed",
-  config: null, is_active: true, last_polled_at: null,
-  last_success_at: null, consecutive_failures: 0,
-};
+const source: Source = { id: "src-1", ip_id: "ip-1", type: "rss", url: "https://feed",
+  config: null, is_active: true, last_polled_at: null, last_success_at: null, consecutive_failures: 0 };
 
-const xml = await Deno.readTextFile(
-  new URL("../fixtures/sample_rss.xml", import.meta.url),
-);
+const xml = await Deno.readTextFile(new URL("../fixtures/sample_rss.xml", import.meta.url));
 
 Deno.test("parseRss는 항목 수만큼 RawItem을 낸다", async () => {
   const items = await parseRss(xml);
@@ -29,22 +24,39 @@ Deno.test("normalize: guid가 있으면 external_id로 사용", () => {
   assertEquals(fi.url, "https://x/1");
 });
 
-Deno.test("normalize: guid 없으면 link를 external_id로 사용", () => {
+Deno.test("normalize: guid 없으면 link를 external_id로", () => {
   const raw = { guid: null, link: "https://x/2", title: "t2", summary: null, imageUrl: null, publishedAt: null };
-  const fi = RssAdapter.normalize(raw, source);
-  assertEquals(fi.external_id, "https://x/2");
+  assertEquals(RssAdapter.normalize(raw, source).external_id, "https://x/2");
 });
 
 Deno.test("normalize: guid·link 모두 없으면 해시 폴백", () => {
   const raw = { guid: null, link: null, title: "제목", summary: null, imageUrl: null, publishedAt: "2026-08-11T09:00:00.000Z" };
   const fi = RssAdapter.normalize(raw, source);
   assertEquals(/^[0-9a-f]+$/.test(fi.external_id), true);
-  assertEquals(fi.url, ""); // link 없으면 빈 문자열
+  assertEquals(fi.url, "");
+});
+
+Deno.test("parseRss: 파싱 불가능한 날짜는 던지지 않고 publishedAt을 null로", async () => {
+  const badXml = `<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>Test Feed</title>
+    <link>https://example.com</link>
+    <item>
+      <title>깨진 날짜</title>
+      <link>https://example.com/goods/3</link>
+      <guid>goods-3</guid>
+      <description>d</description>
+      <pubDate>not-a-real-date</pubDate>
+    </item>
+  </channel>
+</rss>`;
+  const items = await parseRss(badXml);
+  assertEquals(items.length, 1);
+  assertEquals(items[0].publishedAt, null);
 });
 
 Deno.test("fetch는 주입된 httpGet의 응답을 파싱한다", async () => {
-  const fakeGet = ((_url: string) =>
-    Promise.resolve(new Response(xml, { status: 200 }))) as unknown as typeof fetch;
-  const items = await RssAdapter.fetch(source, fakeGet);
-  assertEquals(items.length, 2);
+  const fakeGet = ((_u: string) => Promise.resolve(new Response(xml, { status: 200 }))) as unknown as typeof fetch;
+  assertEquals((await RssAdapter.fetch(source, fakeGet)).length, 2);
 });
