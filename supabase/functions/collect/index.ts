@@ -2,7 +2,7 @@ import { createClient } from "@supabase/supabase-js";
 import { runCollector, type AdapterMap } from "./collector.ts";
 import { RssAdapter } from "./adapters/rss.ts";
 
-const adapters = { rss: RssAdapter } as unknown as AdapterMap;
+const adapters: AdapterMap = { rss: RssAdapter };
 
 Deno.serve(async () => {
   const supabase = createClient(

@@ -6,7 +6,7 @@ import { RssAdapter } from "./adapters/rss.ts";
 const supabase = serviceClient();
 const NOW = "2026-08-12T00:00:00.000Z";
 const xml = await Deno.readTextFile(new URL("./fixtures/sample_rss.xml", import.meta.url));
-const adapters = { rss: RssAdapter } as unknown as AdapterMap;
+const adapters: AdapterMap = { rss: RssAdapter };
 
 Deno.test("정상 소스: 새 항목 삽입 + 성공 헬스", async () => {
   const okGet = ((_u: string) => Promise.resolve(new Response(xml, { status: 200 }))) as unknown as typeof fetch;

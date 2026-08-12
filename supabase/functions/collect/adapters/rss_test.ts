@@ -36,6 +36,26 @@ Deno.test("normalize: guid·link 모두 없으면 해시 폴백", () => {
   assertEquals(fi.url, "");
 });
 
+Deno.test("parseRss: 파싱 불가능한 날짜는 던지지 않고 publishedAt을 null로", async () => {
+  const badXml = `<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>Test Feed</title>
+    <link>https://example.com</link>
+    <item>
+      <title>깨진 날짜</title>
+      <link>https://example.com/goods/3</link>
+      <guid>goods-3</guid>
+      <description>d</description>
+      <pubDate>not-a-real-date</pubDate>
+    </item>
+  </channel>
+</rss>`;
+  const items = await parseRss(badXml);
+  assertEquals(items.length, 1);
+  assertEquals(items[0].publishedAt, null);
+});
+
 Deno.test("fetch는 주입된 httpGet의 응답을 파싱한다", async () => {
   const fakeGet = ((_u: string) => Promise.resolve(new Response(xml, { status: 200 }))) as unknown as typeof fetch;
   assertEquals((await RssAdapter.fetch(source, fakeGet)).length, 2);

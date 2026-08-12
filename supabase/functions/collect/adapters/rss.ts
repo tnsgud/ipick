@@ -2,6 +2,13 @@ import { parseFeed } from "rss";
 import type { Source, RawItem, FeedItem, SourceAdapter } from "../types.ts";
 import { stableHash } from "../hash.ts";
 
+/** 파싱 불가능한 날짜에도 던지지 않고 null을 반환 */
+function toIso(published: string | Date | null | undefined): string | null {
+  if (!published) return null;
+  const d = new Date(published);
+  return Number.isNaN(d.getTime()) ? null : d.toISOString();
+}
+
 /** RSS/Atom XML → RawItem[] (순수) */
 export async function parseRss(xml: string): Promise<RawItem[]> {
   const feed = await parseFeed(xml);
@@ -14,7 +21,7 @@ export async function parseRss(xml: string): Promise<RawItem[]> {
       title: e.title?.value ?? "(제목 없음)",
       summary: e.description?.value ?? null,
       imageUrl: e.attachments?.[0]?.url ?? null,
-      publishedAt: published ? new Date(published).toISOString() : null,
+      publishedAt: toIso(published),
     };
   });
 }
