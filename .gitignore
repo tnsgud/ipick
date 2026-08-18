@@ -58,3 +58,7 @@ supabase/.temp
 
 # SDD scratch workspace
 .superpowers/
+
+# Self-hosted deploy secrets (server-only, never commit)
+deploy/.env
+deploy/*.local

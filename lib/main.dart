@@ -1,67 +1,33 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
-void main() {
-  runApp(const MyApp());
+import 'ui/core/theme/app_theme.dart';
+import 'ui/features/shell/app_shell.dart';
+
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Supabase.initialize(
+    url: 'https://obxjpqemljdtxyhykber.supabase.co',
+    publishableKey: 'sb_publishable_XZt4olfVPGBrEO4p0aXYJg_ik1LxnKK',
+  );
+  runApp(ProviderScope(child: const IPickApp()));
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+/// iPick — 팬덤 발매·굿즈 알림 + 구매 연결.
+///
+/// 현재는 디자인(UI) 레이어 + 목업 데이터만 배선돼 있다. 인증·데이터·구독·FCM 등
+/// 내부 로직 연동은 `docs/design/flutter-logic-guide.md`를 참고해 붙인다.
+class IPickApp extends StatelessWidget {
+  const IPickApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: .fromSeed(seedColor: Colors.deepPurple),
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter += 3;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: .center,
-          children: [
-            const Text('You have pushed the button this many times:'),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ),
+      title: 'iPick',
+      debugShowCheckedModeBanner: false,
+      theme: AppTheme.light,
+      home: const AppShell(),
     );
   }
 }
