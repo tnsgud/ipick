@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widget_previews.dart';
 
 import '../theme/app_colors.dart';
 import '../theme/app_spacing.dart';
