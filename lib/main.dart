@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:ipick/ui/core/router/app_router.dart';
 import 'package:ipick/ui/features/admin/view/admin_login_screen.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -12,6 +13,7 @@ Future<void> main() async {
     url: 'https://obxjpqemljdtxyhykber.supabase.co',
     publishableKey: 'sb_publishable_XZt4olfVPGBrEO4p0aXYJg_ik1LxnKK',
   );
+
   runApp(ProviderScope(child: const IPickApp()));
 }
 
@@ -24,11 +26,11 @@ class IPickApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
+      routerConfig: appRouter,
       title: 'iPick',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.light,
-      home: AdminLoginScreen(),
     );
   }
 }

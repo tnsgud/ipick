@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:ipick/ui/core/theme/app_colors.dart';
 import 'package:ipick/ui/core/theme/app_spacing.dart';
 import 'package:ipick/ui/core/theme/app_text_styles.dart';
@@ -60,7 +61,10 @@ class AdminLoginScreen extends StatelessWidget {
             AppGap.vSm,
             Input(label: '비밀번호', controller: _passwordController),
             AppGap.vSm,
-            FilledButton(onPressed: () => {}, child: Text('로그인')),
+            FilledButton(
+              onPressed: () => context.replace('/admin/home'),
+              child: Text('로그인'),
+            ),
           ],
         ),
       ),

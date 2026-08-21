@@ -22,7 +22,7 @@ abstract final class AppRadius {
 
 /// 위젯 사이 여백. `SizedBox(height/width: AppSpacing.x)`를 앱 전역에서
 /// 이 이름으로 통일해 쓴다.
-class AppGap {
+abstract final class AppGap {
   /// Vertical
   static const SizedBox vXs = SizedBox(height: AppSpacing.xs);
   static const SizedBox vSm = SizedBox(height: AppSpacing.sm);
