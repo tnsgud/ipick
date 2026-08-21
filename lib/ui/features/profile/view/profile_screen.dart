@@ -22,7 +22,7 @@ class ProfileScreen extends StatelessWidget {
                 decoration: const BoxDecoration(color: AppColors.surface, shape: BoxShape.circle),
                 child: const Icon(Icons.person_rounded, color: AppColors.muted, size: 30),
               ),
-              const SizedBox(width: AppSpacing.md),
+              AppGap.hMd,
               const Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -33,7 +33,7 @@ class ProfileScreen extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: AppSpacing.xl),
+          AppGap.vXl,
           _row(Icons.notifications_active_outlined, '알림 설정'),
           _row(Icons.tune_rounded, '피드 취향 관리'),
           _row(Icons.info_outline_rounded, '앱 정보'),

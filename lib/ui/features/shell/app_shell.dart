@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+
 import '../../core/theme/app_colors.dart';
-import '../feed/views/feed_screen.dart';
-import '../notifications/views/notifications_screen.dart';
-import '../profile/views/profile_screen.dart';
-import '../subscriptions/views/subscriptions_screen.dart';
+import '../feed/view/feed_screen.dart';
+import '../notifications/view/notifications_screen.dart';
+import '../profile/view/profile_screen.dart';
+import '../subscriptions/view/subscriptions_screen.dart';
 
 /// 하단 탭 셸: 피드 / 구독 / 알림 / MY. 탭 전환만 담당하는 얇은 셸.
 class AppShell extends StatefulWidget {
@@ -41,17 +42,26 @@ class _AppShellState extends State<AppShell> {
           ),
           NavigationDestination(
             icon: Icon(Icons.favorite_border_rounded),
-            selectedIcon: Icon(Icons.favorite_rounded, color: AppColors.primaryInk),
+            selectedIcon: Icon(
+              Icons.favorite_rounded,
+              color: AppColors.primaryInk,
+            ),
             label: '구독',
           ),
           NavigationDestination(
             icon: Icon(Icons.notifications_none_rounded),
-            selectedIcon: Icon(Icons.notifications_rounded, color: AppColors.primaryInk),
+            selectedIcon: Icon(
+              Icons.notifications_rounded,
+              color: AppColors.primaryInk,
+            ),
             label: '알림',
           ),
           NavigationDestination(
             icon: Icon(Icons.person_outline_rounded),
-            selectedIcon: Icon(Icons.person_rounded, color: AppColors.primaryInk),
+            selectedIcon: Icon(
+              Icons.person_rounded,
+              color: AppColors.primaryInk,
+            ),
             label: 'MY',
           ),
         ],

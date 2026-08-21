@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widget_previews.dart';
+
 import '../theme/app_colors.dart';
 import '../theme/app_spacing.dart';
 
@@ -24,17 +26,25 @@ class IPickChip extends StatelessWidget {
       color: selected ? AppColors.weakBackground : AppColors.canvas,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(AppRadius.pill),
-        side: BorderSide(color: selected ? Colors.transparent : AppColors.border),
+        side: BorderSide(
+          color: selected ? Colors.transparent : AppColors.border,
+        ),
       ),
       child: InkWell(
         onTap: onTap,
         borderRadius: BorderRadius.circular(AppRadius.pill),
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 13, vertical: AppSpacing.sm),
+          padding: const EdgeInsets.symmetric(
+            horizontal: AppSpacing.md,
+            vertical: AppSpacing.sm,
+          ),
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              if (leading != null) ...[leading!, const SizedBox(width: 6)],
+              if (leading != null) ...[
+                leading!,
+                const SizedBox(width: AppSpacing.sm),
+              ],
               Text(
                 label,
                 style: TextStyle(

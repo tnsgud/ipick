@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:ipick/data/repositories/feed_repository.dart';
 import 'package:ipick/ui/core/theme/app_theme.dart';
-import 'package:ipick/ui/features/feed/views/feed_screen.dart';
+import 'package:ipick/ui/features/feed/view/feed_screen.dart';
 import 'package:ipick/ui/features/shell/app_shell.dart';
 
 import 'support/fake_feed_repository.dart';

@@ -28,7 +28,7 @@ class FeedScreen extends ConsumerWidget {
         title: const AppWordmark(),
         actions: [
           _NotificationBell(onTap: () {}),
-          const SizedBox(width: AppSpacing.sm),
+          AppGap.hSm,
         ],
       ),
       body: Column(
@@ -58,7 +58,7 @@ class FeedScreen extends ConsumerWidget {
               ),
             ),
           ),
-          const SizedBox(height: AppSpacing.md),
+          AppGap.vMd,
           // 피드 리스트
           Expanded(
             child: _FeedBody(
@@ -154,17 +154,17 @@ class _Message extends StatelessWidget {
               ),
               child: Icon(icon, color: AppColors.primaryInk, size: 28),
             ),
-            const SizedBox(height: AppSpacing.lg),
+            AppGap.vLg,
             Text(title, textAlign: TextAlign.center, style: AppTextStyles.h4),
             if (description != null) ...[
-              const SizedBox(height: AppSpacing.xs),
+              AppGap.vXs,
               Text(
                 description!,
                 textAlign: TextAlign.center,
                 style: AppTextStyles.body,
               ),
             ],
-            if (action != null) ...[const SizedBox(height: AppSpacing.sm), action!],
+            if (action != null) ...[AppGap.vSm, action!],
           ],
         ),
       ),
@@ -185,7 +185,7 @@ class _SearchField extends StatelessWidget {
       child: const Row(
         children: [
           Icon(Icons.search_rounded, size: 20, color: AppColors.muted),
-          SizedBox(width: AppSpacing.sm),
+          AppGap.hSm,
           Text(
             '굿즈 · IP 검색',
             style: TextStyle(fontSize: 14, color: AppColors.muted),

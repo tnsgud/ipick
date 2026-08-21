@@ -59,7 +59,7 @@ class _IpCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Center(child: GoodsThumbnail(seed: ip.thumbnailSeed, size: 72)),
-          const SizedBox(height: AppSpacing.md),
+          AppGap.vMd,
           Text(ip.name, maxLines: 1, overflow: TextOverflow.ellipsis, style: AppTextStyles.h4),
           Text(ip.category, style: AppTextStyles.caption),
           const Spacer(),

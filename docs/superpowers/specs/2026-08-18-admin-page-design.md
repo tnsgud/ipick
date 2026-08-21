@@ -122,7 +122,7 @@ Supabase Auth는 "회원가입"으로 관리자를 만들지 않는다. 대시�
 
 ## 6. 화면 구조 (Flutter)
 
-**숨김 진입점**: 기존 MY 탭(`lib/ui/features/profile/views/profile_screen.dart`)의
+**숨김 진입점**: 기존 MY 탭(`../../../lib/ui/features/profile/view/profile_screen.dart`)의
 프로필 아이콘을 **7번 탭**하면 진입한다(안드로이드 "빌드번호 7번 탭"과 같은 익숙한
 패턴). 평소엔 어떤 메뉴에도 노출되지 않는다.
 

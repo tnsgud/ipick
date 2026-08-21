@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:ipick/ui/features/admin/view/admin_login_screen.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'ui/core/theme/app_theme.dart';
@@ -27,7 +28,7 @@ class IPickApp extends StatelessWidget {
       title: 'iPick',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.light,
-      home: const AppShell(),
+      home: AdminLoginScreen(),
     );
   }
 }

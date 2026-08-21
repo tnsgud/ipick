@@ -23,9 +23,9 @@ class NotificationsScreen extends StatelessWidget {
                 decoration: const BoxDecoration(color: AppColors.weakBackground, shape: BoxShape.circle),
                 child: const Icon(Icons.notifications_none_rounded, color: AppColors.primaryInk, size: 30),
               ),
-              const SizedBox(height: AppSpacing.lg),
+              AppGap.vLg,
               const Text('새 알림이 여기 모여요', style: AppTextStyles.h4),
-              const SizedBox(height: AppSpacing.xs),
+              AppGap.vXs,
               const Text(
                 '구독한 IP의 발매·예약 소식이 뜨면\n푸시로 알려드릴게요.',
                 textAlign: TextAlign.center,
