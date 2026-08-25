@@ -1,36 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../core/theme/app_colors.dart';
-import '../feed/view/feed_screen.dart';
-import '../notifications/view/notifications_screen.dart';
-import '../profile/view/profile_screen.dart';
-import '../subscriptions/view/subscriptions_screen.dart';
 
-/// 하단 탭 셸: 피드 / 구독 / 알림 / MY. 탭 전환만 담당하는 얇은 셸.
 class AppShell extends StatefulWidget {
-  const AppShell({super.key});
+  const AppShell({super.key, required this.navigationShell});
+
+  final StatefulNavigationShell navigationShell;
 
   @override
   State<AppShell> createState() => _AppShellState();
 }
 
 class _AppShellState extends State<AppShell> {
-  int _index = 0;
-
-  static const _tabs = [
-    FeedScreen(),
-    SubscriptionsScreen(),
-    NotificationsScreen(),
-    ProfileScreen(),
-  ];
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: IndexedStack(index: _index, children: _tabs),
+      body: widget.navigationShell,
       bottomNavigationBar: NavigationBar(
-        selectedIndex: _index,
-        onDestinationSelected: (i) => setState(() => _index = i),
+        selectedIndex: widget.navigationShell.currentIndex,
+        onDestinationSelected: (i) {
+          widget.navigationShell.goBranch(i);
+        },
         backgroundColor: AppColors.canvas,
         indicatorColor: AppColors.weakBackground,
         height: 64,
