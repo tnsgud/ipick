@@ -46,6 +46,7 @@ final appRouter = GoRouter(
       ],
     ),
 
+    // this is test comment
     GoRoute(
       path: '/admin',
       builder: (context, state) => Scaffold(body: Text('admin')),
